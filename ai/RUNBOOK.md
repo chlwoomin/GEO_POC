@@ -1,123 +1,163 @@
-# AI Workflow Runbook
+# AI 워크플로 Runbook
 
-## Quick Start
+업데이트: 2026-05-06 13:55 Asia/Seoul
 
-Run the workflow preflight:
+## 빠른 시작
+
+로컬 대시보드:
 
 ```bash
-bash scripts/ai-loop.sh
+node scripts/dashboard.js
 ```
 
-Run validation only:
+대시보드 snapshot:
+
+```bash
+node scripts/dashboard.js --snapshot
+```
+
+로컬 검증:
 
 ```bash
 bash scripts/validate.sh
 ```
 
-Score the workflow scaffold:
+워크플로 점수:
 
 ```bash
 bash scripts/score-result.sh
 ```
 
-## Loop Procedure
+Claude watcher:
+
+```bash
+bash scripts/watch-claude-gate.sh
+```
+
+## 표준 Ralph Loop
 
 ### 1. Preflight
 
-Read `AGENTS.md`, `ai/SPEC.md`, `ai/PLAN.md`, `ai/STATUS.md`, and `ai/METRICS.json`.
+다음 파일을 읽습니다.
 
-Confirm:
+- `AGENTS.md`
+- `ai/SPEC.md`
+- `ai/PLAN.md`
+- `ai/RUNBOOK.md`
+- `ai/STATUS.md`
+- `ai/METRICS.json`
+- `REVIEW.md`가 있으면 가장 먼저 처리
 
-- active milestone
-- done criteria
-- safety limits
-- known validation commands
-- existing user changes
-- whether git is available
+### 2. 마일스톤 선택
 
-### 2. Select One Milestone
+`ai/PLAN.md`에서 `active` 마일스톤 하나를 선택합니다. `active`가 없으면 첫 `planned` 마일스톤을 선택합니다. 한 루프에서 여러 마일스톤을 동시에 진행하지 않습니다.
 
-Pick the active milestone. If none is active, pick the first planned milestone that is not blocked.
+### 3. 작은 diff 구현
 
-Do not start multiple milestones in one loop pass.
+Codex가 구현합니다. 같은 루프에서 사용자 승인 없이 다음 예산을 넘기지 않습니다.
 
-### 3. Implement A Small Change
+- 최대 변경 파일: 8개
+- 최대 변경 라인: 400줄
+- 같은 마일스톤 디버깅 재시도: 3회
 
-Use `.codex/skills/implement-milestone/SKILL.md`.
-
-Keep the diff focused. If the milestone is too large, split it in `ai/PLAN.md` before implementation.
-
-### 4. Validate
-
-Run:
+### 4. 로컬 검증
 
 ```bash
 bash scripts/validate.sh
 ```
 
-If the project later defines its own checks, run them through `AI_VALIDATE_EXTRA` or encode safe checks in `scripts/validate.sh`.
+검증 실패 시 `.codex/skills/debug-failure/SKILL.md` 흐름으로 원인을 좁히고 다시 검증합니다.
 
-### 5. Debug Failure
+### 5. 커밋
 
-Use `.codex/skills/debug-failure/SKILL.md`.
+로컬 검증이 통과하면 작고 리뷰 가능한 단위로 커밋합니다. watcher는 커밋 변경을 감지하므로, Claude review를 자동화하려면 커밋이 필요합니다.
 
-Record:
+### 6. Watcher 기반 Claude Gate
 
-- failing command
-- first failing symptom
-- suspected cause
-- retry count
-- next bounded fix
+사용자가 별도 로컬 터미널에서 watcher를 실행합니다.
 
-Stop after 3 retries for the same milestone unless the user approves more.
+```bash
+bash scripts/watch-claude-gate.sh
+```
 
-### 6. Review Diff
+PowerShell에서 시작 즉시 현재 커밋을 리뷰하려면:
 
-Use `.codex/skills/review-diff/SKILL.md`.
+```powershell
+$env:CLAUDE_WATCH_RUN_ON_START="1"; bash scripts/watch-claude-gate.sh
+```
 
-If git is available, inspect the git diff. If git is not available, inspect changed files directly.
+watcher는 새 커밋을 감지하면 다음 명령을 실행합니다.
 
-Review for:
+```bash
+bash scripts/claude-review-gate.sh
+```
 
-- requirement drift
-- unrelated changes
-- missing tests or validation
-- risky edits
-- status and metrics accuracy
+Claude Code CLI backend는 로컬 CLI를 사용하지만 diff/context가 Claude 서비스로 전송될 수 있습니다. 그래서 watcher와 gate는 사용자가 직접 실행합니다.
 
-### 7. Update Status
+### 7. REVIEW.md 처리
 
-Use `.codex/skills/update-status/SKILL.md`.
+`REVIEW.md` verdict 처리 규칙:
 
-Update:
+- `PASS`: 상태와 메트릭 갱신 후 다음 루프 진행
+- `WARN`: 경고를 `ai/STATUS.md`에 기록하고 진행 가능
+- `FAIL`: blocker를 먼저 수정하고 로컬 검증 및 Claude gate 재실행
+
+### 8. 상태 갱신
+
+다음을 갱신합니다.
 
 - `ai/STATUS.md`
 - `ai/METRICS.json`
-- `ai/PLAN.md` if milestone status changed
+- 필요 시 `ai/PLAN.md`
 
-### 8. Stop Safely
+## 대시보드 운영
 
-Stop when:
-
-- milestone done criteria are met
-- validation passes and status is updated
-- safety limits are reached
-- a blocker needs user input
-
-## Claude Code Interop
-
-Claude Code is optional. It must not be required for the default Codex loop.
-
-Use Claude review only when the workspace is a git repository and the user has provided the required Anthropic environment:
+대시보드는 읽기 전용입니다. 명령 실행 버튼 대신 복사 가능한 명령을 제공합니다.
 
 ```bash
-python3 scripts/claude_review.py
+node scripts/dashboard.js
 ```
 
-Install the optional post-commit hook only on request:
+접속:
+
+```text
+http://127.0.0.1:3131
+```
+
+포트 변경:
 
 ```bash
-bash scripts/setup_hooks.sh
+node scripts/dashboard.js --port 3132
 ```
 
-`REVIEW.md` is advisory output. Codex remains responsible for final diff review and status updates.
+확인 가능한 항목:
+
+- 활성 마일스톤
+- 로컬 검증 상태
+- Claude review verdict
+- watcher 명령
+- gate 준비도
+- 변경 파일과 라인 예산
+- `REVIEW.md`
+- `ai/LOOP_LOG.jsonl`
+- `ai/STATUS.md`
+- 중복 watcher 경고
+
+## 중복 watcher 기준
+
+표준 watcher는 다음 파일입니다.
+
+```bash
+scripts/watch-claude-gate.sh
+```
+
+`scripts/review-watcher.sh`가 있으면 legacy 또는 실험용 watcher로 취급합니다. 삭제는 자동으로 하지 않고, 대시보드에서 경고로 표시합니다.
+
+## 안전 중단 조건
+
+- 검증 실패가 같은 마일스톤에서 3회 반복됨
+- 변경 예산 초과
+- secret 또는 외부 전송 위험 감지
+- Claude verdict가 `FAIL`
+- `REVIEW.md`가 현재 HEAD와 불일치
+- 사용자의 추가 결정이 필요한 요구사항 발견

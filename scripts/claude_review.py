@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Optional Claude review helper for the Codex-first Ralph Loop.
+"""Required Claude review helper for the Codex-first Ralph Loop.
 
-This script is advisory. It never belongs to the default validation path and it
-skips cleanly when git, ANTHROPIC_API_KEY, or the anthropic package is missing.
+This script writes REVIEW.md. Missing git, ANTHROPIC_API_KEY, or the anthropic
+package is a gate failure unless CLAUDE_REVIEW_ALLOW_SKIP=1 is set explicitly.
 """
 
 from __future__ import annotations
@@ -62,7 +62,7 @@ def get_diff() -> str:
 
 
 def build_prompt(diff: str, sha: str, commit_message: str) -> str:
-    return f"""You are an optional secondary reviewer for a Codex-first repository.
+    return f"""You are the required secondary reviewer for a Codex-first repository.
 
 Review the diff against these workflow files. Treat Codex workflow rules as authoritative.
 
@@ -121,23 +121,26 @@ def write_review(content: str, verdict: str, sha: str, commit_message: str) -> N
     print(f"[claude-review] wrote REVIEW.md with verdict {verdict}")
 
 
-def skip(reason: str) -> int:
-    print(f"[claude-review] skipped: {reason}", file=sys.stderr)
-    return 0
+def fail_or_skip(reason: str) -> int:
+    if os.environ.get("CLAUDE_REVIEW_ALLOW_SKIP") == "1":
+        print(f"[claude-review] skipped: {reason}", file=sys.stderr)
+        return 0
+    print(f"[claude-review] failed: {reason}", file=sys.stderr)
+    return 2
 
 
 def main() -> int:
     if not is_git_repo():
-        return skip("workspace is not a git repository")
+        return fail_or_skip("workspace is not a git repository")
 
     api_key = os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:
-        return skip("ANTHROPIC_API_KEY is not set")
+        return fail_or_skip("ANTHROPIC_API_KEY is not set")
 
     try:
         import anthropic
     except ImportError:
-        return skip("Python package 'anthropic' is not installed")
+        return fail_or_skip("Python package 'anthropic' is not installed")
 
     sha, commit_message = get_commit_info()
     diff = get_diff()
@@ -157,7 +160,7 @@ def main() -> int:
     verdict = extract_verdict(response)
     write_review(response, verdict, sha, commit_message)
 
-    if verdict == "FAIL" and os.environ.get("CLAUDE_REVIEW_STRICT") == "1":
+    if verdict == "FAIL":
         return 1
     return 0
 

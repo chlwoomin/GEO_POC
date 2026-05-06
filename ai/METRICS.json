@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "project": "GEOPOC",
-  "updated_at": "2026-05-06T12:02:00+09:00",
-  "active_milestone": "M2",
+  "updated_at": "2026-05-06T15:00:00+09:00",
+  "active_milestone": null,
   "loop": {
-    "attempts_total": 4,
+    "attempts_total": 10,
     "validation_failures_total": 0,
     "debug_retries_current_milestone": 0,
     "max_debug_retries_per_milestone": 3,
@@ -13,8 +13,39 @@
   },
   "validation": {
     "last_status": "passed",
-    "last_command": "bash scripts/ai-loop.sh",
+    "last_command": "bash scripts/validate.sh",
     "last_score": 100
+  },
+  "geo_score": {
+    "last_score": 99,
+    "last_max": 100,
+    "last_grade": "A",
+    "last_command": "python scripts/geo-score.py",
+    "pass_threshold": 80
+  },
+  "claude_review": {
+    "required": true,
+    "gate_command": "bash scripts/claude-review-gate.sh",
+    "default_backend": "claude-code",
+    "fallback_backend": "api",
+    "last_status": "passed",
+    "last_verdict": "PASS",
+    "blocks_on_fail": true
+  },
+  "watcher": {
+    "available": true,
+    "command": "bash scripts/watch-claude-gate.sh",
+    "poll_interval_seconds_default": 5,
+    "runs_claude_gate": true
+  },
+  "dashboard": {
+    "available": true,
+    "command": "node scripts/dashboard.js",
+    "fallback_command": "node scripts/dashboard.js --port 3132",
+    "snapshot_command": "node scripts/dashboard.js --snapshot",
+    "url": "http://127.0.0.1:3131",
+    "read_only": true,
+    "shows_watcher_flow": true
   },
   "milestones": [
     {
@@ -30,12 +61,17 @@
     {
       "id": "M2",
       "name": "First Feature Spec",
-      "status": "planned"
+      "status": "done"
     },
     {
       "id": "M3",
-      "name": "First Implementation Milestone",
-      "status": "planned"
+      "name": "Lawyer GEO Landing Page Slice",
+      "status": "done"
+    },
+    {
+      "id": "M4",
+      "name": "Agent Workflow Dashboard",
+      "status": "done"
     }
   ]
 }

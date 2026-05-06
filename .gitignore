@@ -2,9 +2,14 @@
 REVIEW.md
 REVIEW.resolved.md
 
+# Loop history log (local runtime data, commit selectively)
+# ai/LOOP_LOG.jsonl
+
 # Dependencies
 node_modules/
 .pnpm-store/
+__pycache__/
+*.pyc
 
 # Build outputs
 dist/

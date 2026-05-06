@@ -12,7 +12,7 @@ HOOK_PATH="$HOOKS_DIR/post-commit"
 
 mkdir -p "$HOOKS_DIR"
 
-if [ -f "$HOOK_PATH" ] && ! grep -q 'scripts/claude_review.py' "$HOOK_PATH"; then
+if [ -f "$HOOK_PATH" ] && ! grep -q 'scripts/claude-review-gate.sh' "$HOOK_PATH"; then
   BACKUP="$HOOK_PATH.codex-backup.$(date +%Y%m%d%H%M%S)"
   cp "$HOOK_PATH" "$BACKUP"
   printf '[setup-hooks] backed up existing post-commit hook to %s\n' "$BACKUP"
@@ -24,16 +24,11 @@ set -u
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 
-if [ -z "${ANTHROPIC_API_KEY:-}" ]; then
-  exit 0
-fi
-
-if command -v python3 >/dev/null 2>&1; then
-  python3 "$REPO_ROOT/scripts/claude_review.py" || true
-fi
+bash "$REPO_ROOT/scripts/claude-review-gate.sh"
 EOF
 
 chmod +x "$HOOK_PATH"
 
-printf '[setup-hooks] optional Claude review hook installed: %s\n' "$HOOK_PATH"
-printf '[setup-hooks] prerequisites: ANTHROPIC_API_KEY, python3, and the anthropic package\n'
+printf '[setup-hooks] required Claude review hook installed: %s\n' "$HOOK_PATH"
+printf '[setup-hooks] default backend: Claude Code CLI via claude command\n'
+printf '[setup-hooks] API fallback: set CLAUDE_REVIEW_BACKEND=api with ANTHROPIC_API_KEY and anthropic package\n'

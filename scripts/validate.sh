@@ -6,6 +6,14 @@ cd "$ROOT" || exit 1
 
 failures=0
 
+# Resolve working Python interpreter (python3 may be a stub on Windows)
+PYTHON=""
+if python3 -c "import sys; sys.exit(0)" 2>/dev/null; then
+  PYTHON="python3"
+elif python -c "import sys; sys.exit(0)" 2>/dev/null; then
+  PYTHON="python"
+fi
+
 check_file() {
   if [ -f "$1" ]; then
     printf 'ok file %s\n' "$1"
@@ -40,6 +48,10 @@ ai/prompts/final-report.md
 scripts/ai-loop.sh
 scripts/validate.sh
 scripts/score-result.sh
+scripts/claude-review-gate.sh
+scripts/claude-code-review.sh
+scripts/watch-claude-gate.sh
+scripts/dashboard.js
 .codex/config.toml
 .codex/skills/implement-milestone/SKILL.md
 .codex/skills/review-diff/SKILL.md
@@ -92,13 +104,23 @@ for skill in .codex/skills/*/SKILL.md; do
   fi
 done
 
-if grep -q 'post-commit hook will automatically invoke Claude' AGENTS.md 2>/dev/null; then
-  printf 'invalid AGENTS.md: Claude hook is mandatory\n'
+if grep -q 'optional advisory' AGENTS.md 2>/dev/null; then
+  printf 'invalid AGENTS.md: Claude review is still optional\n'
   failures=$((failures + 1))
 fi
 
-if grep -q 'Runs the Claude review pipeline' .codex/skills/review-diff/SKILL.md 2>/dev/null; then
-  printf 'invalid review-diff skill: Claude review is mandatory\n'
+if grep -q 'optional advisory' .codex/skills/review-diff/SKILL.md 2>/dev/null; then
+  printf 'invalid review-diff skill: Claude review is still optional\n'
+  failures=$((failures + 1))
+fi
+
+if ! grep -q 'scripts/claude-review-gate.sh' AGENTS.md 2>/dev/null; then
+  printf 'invalid AGENTS.md: missing required Claude gate command\n'
+  failures=$((failures + 1))
+fi
+
+if ! grep -q 'Claude Code CLI' AGENTS.md 2>/dev/null; then
+  printf 'invalid AGENTS.md: missing Claude Code CLI backend note\n'
   failures=$((failures + 1))
 fi
 
@@ -109,26 +131,71 @@ for script in scripts/*.sh; do
   fi
 done
 
-if command -v python3 >/dev/null 2>&1 && [ -f scripts/claude_review.py ]; then
-  python3 -m py_compile scripts/claude_review.py || failures=$((failures + 1))
+if [ -n "$PYTHON" ] && [ -f scripts/claude_review.py ]; then
+  tmp_pyc="${TMPDIR:-/tmp}/claude_review.$$.pyc"
+  if "$PYTHON" -c "import py_compile, sys; py_compile.compile(sys.argv[1], cfile=sys.argv[2], doraise=True)" scripts/claude_review.py "$tmp_pyc"; then
+    rm -f "$tmp_pyc"
+    printf 'ok python syntax scripts/claude_review.py\n'
+  else
+    rm -f "$tmp_pyc"
+    failures=$((failures + 1))
+  fi
+fi
+
+if [ -n "$PYTHON" ] && [ -f scripts/validate-landing.py ]; then
+  tmp_pyc="${TMPDIR:-/tmp}/validate_landing.$$.pyc"
+  if "$PYTHON" -c "import py_compile, sys; py_compile.compile(sys.argv[1], cfile=sys.argv[2], doraise=True)" scripts/validate-landing.py "$tmp_pyc"; then
+    rm -f "$tmp_pyc"
+    printf 'ok python syntax scripts/validate-landing.py\n'
+  else
+    rm -f "$tmp_pyc"
+    failures=$((failures + 1))
+  fi
+  "$PYTHON" scripts/validate-landing.py || failures=$((failures + 1))
+fi
+
+if [ -n "$PYTHON" ] && [ -f scripts/geo-score.py ]; then
+  tmp_pyc="${TMPDIR:-/tmp}/geo_score.$$.pyc"
+  if "$PYTHON" -c "import py_compile, sys; py_compile.compile(sys.argv[1], cfile=sys.argv[2], doraise=True)" scripts/geo-score.py "$tmp_pyc"; then
+    rm -f "$tmp_pyc"
+    printf 'ok python syntax scripts/geo-score.py\n'
+  else
+    rm -f "$tmp_pyc"
+    failures=$((failures + 1))
+  fi
+  "$PYTHON" scripts/geo-score.py || failures=$((failures + 1))
 fi
 
 if command -v node >/dev/null 2>&1; then
+  if node --check scripts/dashboard.js >/dev/null 2>&1; then
+    printf 'ok node syntax scripts/dashboard.js\n'
+  else
+    printf 'invalid node syntax scripts/dashboard.js\n'
+    failures=$((failures + 1))
+  fi
+
+  if node scripts/dashboard.js --snapshot >/dev/null 2>&1; then
+    printf 'ok dashboard snapshot\n'
+  else
+    printf 'invalid dashboard snapshot\n'
+    failures=$((failures + 1))
+  fi
+
   if node -e "JSON.parse(require('fs').readFileSync('ai/METRICS.json', 'utf8'))" >/dev/null 2>&1; then
     printf 'ok json ai/METRICS.json\n'
   else
     printf 'invalid json ai/METRICS.json\n'
     failures=$((failures + 1))
   fi
-elif command -v python3 >/dev/null 2>&1; then
-  if python3 -m json.tool ai/METRICS.json >/dev/null 2>&1; then
+elif [ -n "$PYTHON" ]; then
+  if "$PYTHON" -m json.tool ai/METRICS.json >/dev/null 2>&1; then
     printf 'ok json ai/METRICS.json\n'
   else
     printf 'invalid json ai/METRICS.json\n'
     failures=$((failures + 1))
   fi
 else
-  printf 'warn no node or python3 found; skipped json parse\n'
+  printf 'warn no node or python found; skipped json parse\n'
 fi
 
 if [ -f package.json ] && command -v node >/dev/null 2>&1; then
