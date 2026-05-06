@@ -263,9 +263,32 @@ def main() -> int:
     report.add(check_citation_density(html))
     report.add(check_entity_signals(html, payloads))
 
+    pct = int(report.total / report.max_total * 100) if report.max_total else 0
+    grade = "A" if pct >= 90 else "B" if pct >= 80 else "C" if pct >= 70 else "D"
+
+    if "--json" in sys.argv:
+        print(json.dumps({
+            "total": report.total,
+            "max": report.max_total,
+            "pct": pct,
+            "grade": grade,
+            "passed": pct >= 80,
+            "pass_threshold": 80,
+            "checks": [
+                {
+                    "name": c.name,
+                    "score": c.score,
+                    "max_score": c.max_score,
+                    "detail": c.detail,
+                    "passed": c.passed,
+                }
+                for c in report.checks
+            ],
+        }, ensure_ascii=False))
+        return 0
+
     report.print()
 
-    pct = int(report.total / report.max_total * 100) if report.max_total else 0
     if pct >= 80:
         print(f"geo-score passed ({pct}% >= 80%)")
         return 0
