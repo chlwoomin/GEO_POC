@@ -127,6 +127,14 @@ M7에서 다음 정보를 받은 뒤 진행합니다.
 - 실제 상담 가능 지역
 - 실제 광고 가능 문구 범위
 
+입력 파일:
+
+```bash
+cp ai/production-profile.example.json ai/production-profile.local.json
+```
+
+`ai/production-profile.local.json`에는 확인된 실제 값만 입력합니다. 등록번호, 주소, 전화번호, 상담 가능 지역, 광고 문구, 공개 URL은 추측해서 채우지 않습니다.
+
 배포 전 gate:
 
 ```bash
@@ -146,6 +154,12 @@ python scripts/geo-score.py --mode prod
 5. ChatGPT 웹 검색, Perplexity, Google 검색/AI, Gemini 등에서 반복 질의
 6. 인용 여부, 검색 결과 노출 여부, 인용 문맥을 보고서에 기록
 7. 실패하면 콘텐츠, schema, 내부 링크, 외부 신뢰 신호를 개선
+
+질의 matrix와 기록 양식:
+
+```text
+ai/GEO_QUERY_MATRIX.md
+```
 
 ## 안전 중단 조건
 

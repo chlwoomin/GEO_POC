@@ -1,10 +1,10 @@
 # AI 워크플로 상태
 
-업데이트: 2026-05-06 20:03 Asia/Seoul
+업데이트: 2026-05-06 20:25 Asia/Seoul
 
 ## 현재 상태
 
-김재철 대표변호사님 페르소나 반영 작업의 첫 단계로 `landing/index.html`을 백상 법무법인 김재철 대표변호사 랜딩 초안으로 수정했습니다. 사용자 제공 정보인 변호사명, 사무소명, 대표변호사 지위, 블로그 URL을 반영했고, 실제 공개 전 확인이 필요한 등록번호·주소·전화번호는 임의 생성하지 않았습니다.
+김재철 대표변호사님 페르소나 반영 작업의 첫 단계로 `landing/index.html`을 백상 법무법인 김재철 대표변호사 랜딩 초안으로 수정했습니다. 이어서 M7/M8의 남은 준비 작업 중 임의 정보 없이 진행 가능한 production 입력 계약과 AI GEO 질의 matrix를 추가했습니다.
 
 현재 GEO 결과:
 
@@ -41,6 +41,8 @@ Claude Code review gate는 이번 랜딩 변경 이후 아직 실행되지 않�
 - 실제 사무소명: 백상 법무법인
 - 직위: 대표변호사
 - 공개 블로그 URL: https://blog.naver.com/kjccjk77
+- production 입력 계약 파일: `ai/production-profile.example.json`
+- AI GEO 질의 matrix: `ai/GEO_QUERY_MATRIX.md`
 
 남은 입력:
 
@@ -56,6 +58,9 @@ Claude Code review gate는 이번 랜딩 변경 이후 아직 실행되지 않�
 - `landing/index.html`: 기존 가상 변호사/가상 사무소 신호를 백상 법무법인 김재철 대표변호사 페르소나로 교체했습니다.
 - `landing/index.html`: JSON-LD `LegalService`, `Attorney`, `LocalBusiness`, `FAQPage` 엔티티에 블로그 URL과 확인된 이름/사무소명을 반영했습니다.
 - `landing/index.html`: 등록번호·주소·전화번호는 임의 생성하지 않고 "실제 공개 전 확인 필요"로 남겼습니다.
+- `ai/production-profile.example.json`: M7 production 배포 전에 채워야 할 실제 입력 계약을 정의했습니다.
+- `ai/GEO_QUERY_MATRIX.md`: M8 실제 AI GEO 실험용 질의와 기록 양식을 정의했습니다.
+- `ai/PLAN.md`, `ai/RUNBOOK.md`: M7/M8 진행 상태와 새 파일 경로를 연결했습니다.
 - `scripts/geo-score.py`: `persona` 모드 추가. `noindex,nofollow`와 가상 페이지 고지를 critical gate로 검사합니다.
 - `scripts/geo-dashboard.js`: `dev`, `persona`, `prod` 모드를 모두 지원하고 Python 실행 실패 시 JS fallback으로 같은 기준을 계산합니다.
 - `scripts/validate.sh`: Codex 번들 Python 탐색과 persona gate 검증을 추가했습니다.
@@ -69,6 +74,7 @@ Claude Code review gate는 이번 랜딩 변경 이후 아직 실행되지 않�
 - `python scripts/geo-score.py --mode dev`: 93/100, Grade A, passed
 - `python scripts/geo-score.py --mode persona`: 100/100, Grade A, passed
 - `node scripts/geo-dashboard.js --score-json --mode persona`: 100/100, passed, JS fallback 동작
+- `node -e "JSON.parse(...)"`: production profile example 및 metrics JSON parse 통과
 - `python scripts/geo-score.py --json --mode persona`: 100/100, passed
 - `python scripts/geo-score.py --json --mode prod`: expected failed, critical failures 존재
 - `node --check scripts/geo-dashboard.js`: passed
@@ -91,3 +97,4 @@ Claude Code review gate는 이번 랜딩 변경 이후 아직 실행되지 않�
 - 2026-05-06 17:43 Asia/Seoul | done | 전체 `bash scripts/validate.sh`, `bash scripts/score-result.sh` 통과
 - 2026-05-06 18:00 Asia/Seoul | done | M6 persona AI GEO staging gate 완료, persona 100/100 통과
 - 2026-05-06 20:03 Asia/Seoul | active | 김재철 대표변호사/백상 법무법인 랜딩 초안 반영, validate 통과
+- 2026-05-06 20:25 Asia/Seoul | active | M7 production 입력 계약과 M8 AI GEO 질의 matrix 추가

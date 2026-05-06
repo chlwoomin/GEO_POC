@@ -11,7 +11,7 @@
 
 ## 현재 우선순위
 
-현재 목표는 실제 변호사 production 배포 트랙을 잠시 미루고, AI GEO 테스트용 가상 페이지를 안전하게 공개 staging에서 실험할 수 있는 트랙을 먼저 만드는 것입니다. 이 트랙은 검색 색인을 목표로 하지 않고, 직접 URL을 AI 도구에 제공했을 때 구조·출처·FAQ·법조문 신호를 이해하는지 검증합니다.
+현재 목표는 김재철 대표변호사님/백상 법무법인 페르소나를 반영한 랜딩 초안을 production 배포 가능한 형태로 점진 전환하는 것입니다. 실제 등록번호·주소·전화번호·배포 URL은 임의 생성하지 않고, `ai/production-profile.example.json` 계약에 따라 확인된 값만 사용합니다.
 
 ## 마일스톤
 
@@ -110,16 +110,21 @@
 
 목표: 실제 공개 URL에 올릴 수 있는 production landing build를 만든다.
 
+진행됨:
+
+- 김재철 대표변호사님/백상 법무법인/블로그 URL을 랜딩 초안에 반영
+- production 입력 계약 파일 `ai/production-profile.example.json` 정의
+
 Blocker:
 
 - 실제 배포 플랫폼이 필요함: Vercel, Netlify, Cloudflare Pages, GitHub Pages 중 하나
 - 실제 공개 도메인 또는 임시 배포 URL이 필요함
-- 실제 변호사/사무소 정보가 필요함: 변호사명, 등록번호, 사무소명, 주소, 전화번호, 상담 가능 지역, 실제 광고 가능 문구
-- 데모 변호사와 데모 주소는 production 배포 gate를 통과할 수 없음
+- 실제 변호사/사무소 정보 중 등록번호, 주소, 전화번호, 상담 가능 지역, 실제 광고 가능 문구가 필요함
+- 현재 랜딩은 `noindex,nofollow` 상태이므로 production 배포 gate를 통과할 수 없음
 
 완료 조건:
 
-- [ ] production 정보 파일 또는 환경변수 정의
+- [x] production 정보 파일 또는 환경변수 정의
 - [ ] `noindex,nofollow` 제거 또는 prod에서 indexable 처리
 - [ ] 실제 도메인 기준 canonical URL 추가
 - [ ] `robots.txt`와 `sitemap.xml` 생성
@@ -139,7 +144,7 @@ Blocker:
 - [ ] sitemap 제출 또는 검색엔진 색인 요청
 - [ ] 색인 상태 기록
 - [ ] ChatGPT 웹 검색, Perplexity, Google AI/검색, Gemini 등에서 질의 테스트
-- [ ] 질의 matrix 작성: 브랜드명, 변호사명, 지역+분야, 법률 질문형 query
+- [x] 질의 matrix 작성: 브랜드명, 변호사명, 지역+분야, 법률 질문형 query
 - [ ] AI 응답이 페이지를 인용하거나 검색 결과에 노출되는지 보고서 작성
 - [ ] 실패 시 콘텐츠/스키마/색인 개선 루프 실행
 
