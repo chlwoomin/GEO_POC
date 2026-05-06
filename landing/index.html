@@ -3,9 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>이혼·재산분할 변호사 상담 | 법률사무소 은광 최우민 변호사</title>
-    <meta name="description" content="이혼, 재산분할, 양육권, 면접교섭 문제를 법조문과 판례 중심으로 정리합니다. 서울 서초 법률사무소 은광 최우민 변호사.">
+    <title>AI GEO 테스트 데모 | 이혼·재산분할 변호사 상담 가상 페이지</title>
+    <meta name="description" content="AI GEO 테스트용 가상 변호사 랜딩페이지입니다. 실제 법률 서비스가 아니며 가상의 인물·사무소 정보를 사용합니다.">
     <meta name="robots" content="noindex, nofollow">
+    <meta name="geo-test-mode" content="persona-staging">
     <link rel="stylesheet" href="./styles.css">
     <script type="application/ld+json">
       {
@@ -15,7 +16,7 @@
             "@type": "LegalService",
             "@id": "https://local.example/lawyer-divorce#service",
             "name": "법률사무소 은광 이혼·재산분할 상담",
-            "description": "이혼, 재산분할, 친권·양육권, 면접교섭 쟁점을 법조문과 판례 기준으로 정리합니다.",
+            "description": "AI GEO 테스트용 가상 페이지입니다. 이혼, 재산분할, 친권·양육권, 면접교섭 쟁점을 법조문과 판례 기준으로 정리합니다.",
             "areaServed": ["서울", "경기", "인천"],
             "serviceType": ["이혼 상담", "재산분할 상담", "양육권 상담", "면접교섭 상담"],
             "provider": { "@id": "https://local.example/lawyer-divorce#attorney" },
@@ -125,7 +126,7 @@
   </head>
   <body>
     <div class="demo-bar" role="note" aria-label="데모 안내">
-      이 페이지는 GEO 랜딩페이지 <strong>데모</strong>입니다. 가상의 인물과 정보로 구성되어 있으며 실제 법률 서비스가 아닙니다.
+      이 페이지는 AI GEO 테스트용 <strong>데모</strong>입니다. 가상의 인물과 정보로 구성되어 있으며 실제 법률 서비스가 아닙니다.
     </div>
 
     <header class="site-header" aria-label="주요 이동">
@@ -514,7 +515,7 @@
               상담 내용 (선택)
               <textarea name="message" rows="3" placeholder="간략히 상황을 적어주시면 더 빠른 상담이 가능합니다"></textarea>
             </label>
-            <button type="submit" class="submit-btn">상담 신청하기</button>
+            <button type="submit" class="submit-btn">데모 상담 흐름 확인</button>
           </form>
           <p class="contact-notice">⚠ 데모 페이지입니다. 제출하셔도 실제로 전송되지 않으며, 이 페이지의 변호사·사무소 정보는 가상입니다.</p>
         </div>
@@ -565,7 +566,7 @@
       document.querySelector('.contact-form').addEventListener('submit', function(e) {
         e.preventDefault();
         var btn = this.querySelector('.submit-btn');
-        btn.textContent = '신청 완료 — 확인 후 연락드리겠습니다';
+        btn.textContent = '데모 확인 완료 — 실제로 전송되지 않습니다';
         btn.disabled = true;
       });
     </script>

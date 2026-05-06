@@ -1,6 +1,6 @@
 # AI 워크플로 계획
 
-업데이트: 2026-05-06 14:08 Asia/Seoul
+업데이트: 2026-05-06 18:00 Asia/Seoul
 
 ## 마일스톤 상태 정의
 
@@ -11,15 +11,13 @@
 
 ## 현재 우선순위
 
-현재 저장소는 Codex 우선 Ralph Loop를 사용합니다. 구현은 Codex가 수행하고, 로컬 검증이 통과한 뒤 커밋 단위로 watcher가 Claude Code review gate를 실행하는 흐름을 표준으로 둡니다.
+현재 목표는 실제 변호사 production 배포 트랙을 잠시 미루고, AI GEO 테스트용 가상 페이지를 안전하게 공개 staging에서 실험할 수 있는 트랙을 먼저 만드는 것입니다. 이 트랙은 검색 색인을 목표로 하지 않고, 직접 URL을 AI 도구에 제공했을 때 구조·출처·FAQ·법조문 신호를 이해하는지 검증합니다.
 
 ## 마일스톤
 
 ### M0. AI 워크플로 인프라 부트스트랩
 
 상태: `done`
-
-목표: Codex 우선 Ralph Loop 워크플로 scaffold를 만든다.
 
 완료 조건:
 
@@ -35,8 +33,6 @@
 
 상태: `done`
 
-목표: 애플리케이션 동작을 바꾸지 않고 실제 스택, 패키지 매니저, 검증 명령, 중복 파일을 파악한다.
-
 완료 조건:
 
 - [x] 프로젝트 구조가 `ai/STATUS.md`에 요약됨
@@ -48,11 +44,9 @@
 
 상태: `done`
 
-목표: 변호사 GEO 랜딩페이지 첫 slice를 구현 가능한 스펙으로 정리한다.
-
 완료 조건:
 
-- [x] 사용자 목표가 acceptance criteria로 번역됨
+- [x] 변호사 GEO 랜딩페이지 목표가 acceptance criteria로 번역됨
 - [x] scope boundary와 non-goal 명확화
 - [x] 구현 및 검증 계획 정의
 
@@ -60,36 +54,98 @@
 
 상태: `done`
 
-목표: 승인된 첫 기능 slice를 Ralph Loop로 구현한다.
-
 완료 조건:
 
-- [x] 작은 기능 slice 구현
+- [x] 정적 랜딩페이지 구현
+- [x] JSON-LD, FAQ, 법조문·판례 인용 포함
 - [x] `bash scripts/validate.sh` 통과
-- [x] Claude review 통과 (VERDICT: PASS — `REVIEW.md` 참고)
-- [x] diff review 완료
-- [x] 상태와 메트릭 갱신
+- [x] Claude review 통과
 
 ### M4. Agent Workflow Dashboard
 
 상태: `done`
 
-목표: Codex, watcher, Claude Gate, 상태 파일, 메트릭, diff budget을 한 화면에서 확인하는 로컬 읽기 전용 대시보드를 만든다.
+완료 조건:
+
+- [x] workflow dashboard 구현
+- [x] `/api/snapshot` 제공
+- [x] watcher 기반 Claude review 흐름 표시
+- [x] 검증 및 score 통과
+
+### M5. GEO Scorer Hardening
+
+상태: `done`
+
+목표: 데모 페이지가 실제 배포 가능한 GEO 준비도처럼 과대평가되지 않도록 점수기와 대시보드 gate를 강화한다.
 
 완료 조건:
 
-- [x] `ai/specs/agent-workflow-dashboard.md` 작성
-- [x] `scripts/dashboard.js` 구현
-- [x] `/api/snapshot` 제공
-- [x] watcher 기반 Claude review 흐름을 명령 패널에 표시
-- [x] `scripts/validate.sh`가 dashboard syntax와 snapshot을 검사
-- [x] `bash scripts/validate.sh` 통과
-- [x] `bash scripts/score-result.sh` 90점 이상
-- [x] Claude review 통과 (VERDICT: PASS — `REVIEW.md` 참고)
+- [x] `scripts/geo-score.py`에 `dev`/`prod` 모드 추가
+- [x] `noindex,nofollow`를 dev에서는 감점, prod에서는 critical failure 처리
+- [x] 데모 주소, 데모 등록번호, placeholder를 prod critical failure 처리
+- [x] JSON-LD, FAQ, 법조문·판례, 광고 리스크를 critical gate로 분리
+- [x] 총점만으로 통과하지 않고 critical failure가 있으면 실패
+- [x] `scripts/geo-dashboard.js`가 Python 탐색 실패 시 JS fallback scorer 사용
+- [x] `node scripts/geo-dashboard.js --score-json --mode dev` 통과
+- [x] `node scripts/geo-dashboard.js --score-json --mode prod`가 현재 데모 페이지를 의도적으로 차단
+
+### M6. Persona AI GEO Staging Experiment
+
+상태: `done`
+
+목표: 실제 변호사 정보를 만들지 않고도 AI GEO 이해도 테스트를 할 수 있는 가상 페이지 staging gate를 만든다.
+
+완료 조건:
+
+- [x] `scripts/geo-score.py`에 `persona` 모드 추가
+- [x] persona 모드에서 `noindex,nofollow`를 필수 보호 장치로 처리
+- [x] persona 모드에서 데모/placeholder는 명확한 가상 페이지 고지가 있을 때만 허용
+- [x] `scripts/geo-dashboard.js --score-json --mode persona` 통과
+- [x] `bash scripts/validate.sh`가 persona gate를 포함해 통과
+- [x] 실제 production 검색 실험과 직접 URL AI 테스트의 차이를 `ai/RUNBOOK.md`에 기록
+
+### M7. Production Deployment Readiness
+
+상태: `blocked`
+
+목표: 실제 공개 URL에 올릴 수 있는 production landing build를 만든다.
+
+Blocker:
+
+- 실제 배포 플랫폼이 필요함: Vercel, Netlify, Cloudflare Pages, GitHub Pages 중 하나
+- 실제 공개 도메인 또는 임시 배포 URL이 필요함
+- 실제 변호사/사무소 정보가 필요함: 변호사명, 등록번호, 사무소명, 주소, 전화번호, 상담 가능 지역, 실제 광고 가능 문구
+- 데모 변호사와 데모 주소는 production 배포 gate를 통과할 수 없음
+
+완료 조건:
+
+- [ ] production 정보 파일 또는 환경변수 정의
+- [ ] `noindex,nofollow` 제거 또는 prod에서 indexable 처리
+- [ ] 실제 도메인 기준 canonical URL 추가
+- [ ] `robots.txt`와 `sitemap.xml` 생성
+- [ ] `scripts/geo-score.py --mode prod` 통과
+- [ ] 정적 호스팅 플랫폼에 배포
+- [ ] 공개 URL 기록
+
+### M8. Real AI GEO Experiment
+
+상태: `planned`
+
+목표: 실제 AI 사용 환경에서 페이지가 발견·인용되는지 추적한다.
+
+완료 조건:
+
+- [ ] 공개 URL이 정상 접근 가능
+- [ ] sitemap 제출 또는 검색엔진 색인 요청
+- [ ] 색인 상태 기록
+- [ ] ChatGPT 웹 검색, Perplexity, Google AI/검색, Gemini 등에서 질의 테스트
+- [ ] 질의 matrix 작성: 브랜드명, 변호사명, 지역+분야, 법률 질문형 query
+- [ ] AI 응답이 페이지를 인용하거나 검색 결과에 노출되는지 보고서 작성
+- [ ] 실패 시 콘텐츠/스키마/색인 개선 루프 실행
 
 ## 안전 gate
 
-- 같은 마일스톤에서 검증 실패 디버깅은 최대 3회
-- 사용자 승인 없이 한 루프에서 8개 파일 또는 400줄 초과 금지
-- network, secret, 외부 전송이 필요한 작업은 사용자 승인 또는 직접 실행 필요
-- Claude watcher는 사용자가 로컬 터미널에서 직접 실행
+- 실제 법률 광고 집행 전 변호사법·광고 규정 검토 필요
+- 사용자 승인 없이 실제 개인정보, 등록번호, 주소를 임의 생성하지 않음
+- production 배포 전 `geo-score --mode prod` 통과 필수
+- AI 검색 노출은 즉시 보장되지 않으며 색인과 크롤링 시간이 필요함

@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "project": "GEOPOC",
-  "updated_at": "2026-05-06T15:00:00+09:00",
-  "active_milestone": null,
+  "updated_at": "2026-05-06T18:00:00+09:00",
+  "active_milestone": "M7",
   "loop": {
-    "attempts_total": 10,
+    "attempts_total": 12,
     "validation_failures_total": 0,
     "debug_retries_current_milestone": 0,
     "max_debug_retries_per_milestone": 3,
@@ -17,20 +17,53 @@
     "last_score": 100
   },
   "geo_score": {
-    "last_score": 99,
-    "last_max": 100,
-    "last_grade": "A",
-    "last_command": "python scripts/geo-score.py",
-    "pass_threshold": 80
+    "dev": {
+      "last_score": 87,
+      "last_max": 100,
+      "last_grade": "B",
+      "last_status": "passed",
+      "last_command": "python scripts/geo-score.py --json --mode dev",
+      "pass_threshold": 80
+    },
+    "persona": {
+      "last_score": 100,
+      "last_max": 100,
+      "last_grade": "A",
+      "last_status": "passed",
+      "last_command": "python scripts/geo-score.py --json --mode persona",
+      "pass_threshold": 90,
+      "critical_failures": []
+    },
+    "prod": {
+      "last_score": 87,
+      "last_max": 100,
+      "last_grade": "B",
+      "last_status": "failed",
+      "last_command": "python scripts/geo-score.py --json --mode prod",
+      "pass_threshold": 90,
+      "critical_failures": [
+        "색인 가능성",
+        "데모 데이터 배포 차단"
+      ]
+    }
   },
   "claude_review": {
     "required": true,
     "gate_command": "bash scripts/claude-review-gate.sh",
     "default_backend": "claude-code",
     "fallback_backend": "api",
-    "last_status": "passed",
-    "last_verdict": "PASS",
+    "last_status": "pending-after-m6-persona",
+    "last_verdict": null,
     "blocks_on_fail": true
+  },
+  "deployment": {
+    "status": "production-blocked-persona-staging-ready",
+    "needs_platform": true,
+    "needs_public_url": true,
+    "needs_real_lawyer_profile": true,
+    "prod_geo_required": true,
+    "persona_staging_ready": true,
+    "persona_search_indexing_allowed": false
   },
   "watcher": {
     "available": true,
@@ -46,6 +79,13 @@
     "url": "http://127.0.0.1:3131",
     "read_only": true,
     "shows_watcher_flow": true
+  },
+  "geo_dashboard": {
+    "available": true,
+    "command": "node scripts/geo-dashboard.js",
+    "fallback_command": "node scripts/geo-dashboard.js --port 3134",
+    "score_command": "node scripts/geo-dashboard.js --score-json --mode persona",
+    "supports_js_fallback": true
   },
   "milestones": [
     {
@@ -72,6 +112,26 @@
       "id": "M4",
       "name": "Agent Workflow Dashboard",
       "status": "done"
+    },
+    {
+      "id": "M5",
+      "name": "GEO Scorer Hardening",
+      "status": "done"
+    },
+    {
+      "id": "M6",
+      "name": "Persona AI GEO Staging Experiment",
+      "status": "done"
+    },
+    {
+      "id": "M7",
+      "name": "Production Deployment Readiness",
+      "status": "blocked"
+    },
+    {
+      "id": "M8",
+      "name": "Real AI GEO Experiment",
+      "status": "planned"
     }
   ]
 }

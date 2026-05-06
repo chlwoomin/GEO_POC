@@ -7,8 +7,17 @@ cd "$ROOT" || exit 1
 failures=0
 
 # Resolve working Python interpreter (python3 may be a stub on Windows)
+ENV_PYTHON="${PYTHON:-}"
 PYTHON=""
-if python3 -c "import sys; sys.exit(0)" 2>/dev/null; then
+if [ -n "${GEO_PYTHON:-}" ] && "$GEO_PYTHON" -c "import sys; sys.exit(0)" 2>/dev/null; then
+  PYTHON="$GEO_PYTHON"
+elif [ -n "$ENV_PYTHON" ] && "$ENV_PYTHON" -c "import sys; sys.exit(0)" 2>/dev/null; then
+  PYTHON="$ENV_PYTHON"
+elif [ -n "${USERPROFILE:-}" ] && [ -f "$USERPROFILE/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe" ] && "$USERPROFILE/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe" -c "import sys; sys.exit(0)" 2>/dev/null; then
+  PYTHON="$USERPROFILE/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe"
+elif [ -n "${HOME:-}" ] && [ -f "$HOME/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe" ] && "$HOME/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe" -c "import sys; sys.exit(0)" 2>/dev/null; then
+  PYTHON="$HOME/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe"
+elif python3 -c "import sys; sys.exit(0)" 2>/dev/null; then
   PYTHON="python3"
 elif python -c "import sys; sys.exit(0)" 2>/dev/null; then
   PYTHON="python"
@@ -164,6 +173,7 @@ if [ -n "$PYTHON" ] && [ -f scripts/geo-score.py ]; then
     failures=$((failures + 1))
   fi
   "$PYTHON" scripts/geo-score.py || failures=$((failures + 1))
+  "$PYTHON" scripts/geo-score.py --mode persona || failures=$((failures + 1))
 fi
 
 if command -v node >/dev/null 2>&1; then
@@ -178,6 +188,20 @@ if command -v node >/dev/null 2>&1; then
     printf 'ok dashboard snapshot\n'
   else
     printf 'invalid dashboard snapshot\n'
+    failures=$((failures + 1))
+  fi
+
+  if node --check scripts/geo-dashboard.js >/dev/null 2>&1; then
+    printf 'ok node syntax scripts/geo-dashboard.js\n'
+  else
+    printf 'invalid node syntax scripts/geo-dashboard.js\n'
+    failures=$((failures + 1))
+  fi
+
+  if node scripts/geo-dashboard.js --score-json --mode persona >/dev/null 2>&1; then
+    printf 'ok geo dashboard persona score\n'
+  else
+    printf 'invalid geo dashboard persona score\n'
     failures=$((failures + 1))
   fi
 

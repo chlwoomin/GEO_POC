@@ -12,7 +12,7 @@ penalize() {
   score=$((score - "$1"))
 }
 
-for path in AGENTS.md CLAUDE.md ai/SPEC.md ai/PLAN.md ai/RUNBOOK.md ai/STATUS.md ai/METRICS.json scripts/validate.sh scripts/claude-review-gate.sh scripts/claude-code-review.sh scripts/watch-claude-gate.sh scripts/dashboard.js; do
+for path in AGENTS.md CLAUDE.md ai/SPEC.md ai/PLAN.md ai/RUNBOOK.md ai/STATUS.md ai/METRICS.json scripts/validate.sh scripts/claude-review-gate.sh scripts/claude-code-review.sh scripts/watch-claude-gate.sh scripts/dashboard.js scripts/geo-score.py scripts/geo-dashboard.js; do
   [ -f "$path" ] || penalize 10
 done
 
@@ -57,6 +57,22 @@ if ! grep -q 'watch-claude-gate.sh' scripts/dashboard.js 2>/dev/null; then
 fi
 
 if ! grep -q '/api/snapshot' scripts/dashboard.js 2>/dev/null; then
+  penalize 10
+fi
+
+if ! grep -q 'critical_failures' scripts/geo-score.py 2>/dev/null; then
+  penalize 10
+fi
+
+if ! grep -q 'scoreWithJsFallback' scripts/geo-dashboard.js 2>/dev/null; then
+  penalize 10
+fi
+
+if ! grep -q 'persona' scripts/geo-score.py 2>/dev/null; then
+  penalize 10
+fi
+
+if ! grep -q -- '--mode persona' scripts/validate.sh 2>/dev/null; then
   penalize 10
 fi
 
