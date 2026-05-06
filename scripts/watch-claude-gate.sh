@@ -38,13 +38,15 @@ printf '[claude-watch] backend %s\n' "${CLAUDE_REVIEW_BACKEND:-claude-code}"
 
 run_gate() {
   local head_short
+  local exit_code
   head_short="$(git rev-parse --short HEAD 2>/dev/null || printf unknown)"
   printf '[claude-watch] running Claude gate for %s\n' "$head_short"
-  if bash scripts/claude-review-gate.sh; then
+  bash scripts/claude-review-gate.sh
+  exit_code=$?
+  if [ "$exit_code" -eq 0 ]; then
     printf '[claude-watch] Claude gate passed for %s\n' "$head_short"
     return 0
   fi
-  local exit_code=$?
   printf '[claude-watch] Claude gate failed for %s with exit %s\n' "$head_short" "$exit_code" >&2
   return "$exit_code"
 }

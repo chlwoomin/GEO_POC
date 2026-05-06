@@ -4,8 +4,17 @@ set -u
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT" || exit 1
 
-if ! command -v claude >/dev/null 2>&1; then
-  printf '[claude-code-review] failed: claude CLI is not available\n' >&2
+CLAUDE_BIN="${CLAUDE_CMD:-}"
+if [ -z "$CLAUDE_BIN" ]; then
+  if command -v claude >/dev/null 2>&1; then
+    CLAUDE_BIN="claude"
+  elif command -v claude.exe >/dev/null 2>&1; then
+    CLAUDE_BIN="claude.exe"
+  fi
+fi
+
+if [ -z "$CLAUDE_BIN" ] || ! command -v "$CLAUDE_BIN" >/dev/null 2>&1; then
+  printf '[claude-code-review] failed: claude CLI is not available. Set CLAUDE_CMD to the local Claude Code executable if needed.\n' >&2
   exit 2
 fi
 
@@ -55,7 +64,7 @@ trap cleanup EXIT
   printf '### FEEDBACK_FOR_CODEX\nConcrete next actions. If there are no issues, write "proceed".\n'
 } > "$prompt_file"
 
-if ! claude -p --output-format text --permission-mode dontAsk --tools "" < "$prompt_file" > "$response_file"; then
+if ! "$CLAUDE_BIN" -p --output-format text --permission-mode dontAsk --tools "" < "$prompt_file" > "$response_file"; then
   printf '[claude-code-review] failed: claude CLI returned non-zero\n' >&2
   exit 2
 fi
@@ -68,7 +77,7 @@ fi
 
 {
   printf '# Claude Review\n'
-  printf '**Backend**: Claude Code CLI\n'
+  printf '**Backend**: Claude Code CLI (%s)\n' "$CLAUDE_BIN"
   printf '**Commit**: %s - %s\n' "$sha" "$commit_msg"
   printf '**VERDICT**: %s\n\n' "$verdict"
   cat "$response_file"
