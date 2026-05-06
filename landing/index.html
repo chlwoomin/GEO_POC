@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AI GEO 테스트 데모 | 이혼·재산분할 변호사 상담 가상 페이지</title>
-    <meta name="description" content="AI GEO 테스트용 가상 변호사 랜딩페이지입니다. 실제 법률 서비스가 아니며 가상의 인물·사무소 정보를 사용합니다.">
+    <title>김재철 대표변호사 | 백상 법무법인 법률 상담 랜딩 초안</title>
+    <meta name="description" content="백상 법무법인 김재철 대표변호사 페르소나를 반영한 AI GEO 테스트용 랜딩페이지 초안입니다. 실제 공개 전 등록번호·주소·전화번호 확인이 필요합니다.">
     <meta name="robots" content="noindex, nofollow">
     <meta name="geo-test-mode" content="persona-staging">
     <link rel="stylesheet" href="./styles.css">
@@ -14,45 +14,46 @@
         "@graph": [
           {
             "@type": "LegalService",
-            "@id": "https://local.example/lawyer-divorce#service",
-            "name": "법률사무소 은광 이혼·재산분할 상담",
-            "description": "AI GEO 테스트용 가상 페이지입니다. 이혼, 재산분할, 친권·양육권, 면접교섭 쟁점을 법조문과 판례 기준으로 정리합니다.",
+            "@id": "https://blog.naver.com/kjccjk77#service",
+            "name": "백상 법무법인 김재철 대표변호사 법률 상담",
+            "description": "백상 법무법인 김재철 대표변호사 페르소나를 반영한 AI GEO 테스트용 랜딩 초안입니다. 이혼, 재산분할, 친권·양육권, 면접교섭 쟁점을 법조문과 판례 기준으로 정리합니다.",
             "areaServed": ["서울", "경기", "인천"],
             "serviceType": ["이혼 상담", "재산분할 상담", "양육권 상담", "면접교섭 상담"],
-            "provider": { "@id": "https://local.example/lawyer-divorce#attorney" },
+            "provider": { "@id": "https://blog.naver.com/kjccjk77#attorney" },
             "address": {
               "@type": "PostalAddress",
-              "streetAddress": "서울특별시 서초구 서초대로 (데모 주소)",
-              "addressLocality": "서울",
-              "addressRegion": "서울특별시",
+              "streetAddress": "실제 공개 전 확인 필요",
+              "addressLocality": "확인 필요",
+              "addressRegion": "확인 필요",
               "addressCountry": "KR"
             },
-            "telephone": "+82-2-000-0000"
+            "telephone": "확인 필요"
           },
           {
             "@type": ["Person", "Attorney"],
-            "@id": "https://local.example/lawyer-divorce#attorney",
-            "name": "최우민 변호사",
-            "jobTitle": "변호사",
-            "identifier": "대한변호사협회 등록번호 제XXXXX호 (데모)",
-            "worksFor": { "@id": "https://local.example/lawyer-divorce#office" },
+            "@id": "https://blog.naver.com/kjccjk77#attorney",
+            "name": "김재철 변호사",
+            "jobTitle": "백상 법무법인 대표변호사",
+            "identifier": "대한변호사협회 등록번호 확인 필요",
+            "sameAs": "https://blog.naver.com/kjccjk77",
+            "worksFor": { "@id": "https://blog.naver.com/kjccjk77#office" },
             "knowsAbout": ["민법 제839조의2", "민법 제840조", "민법 제837조", "민법 제837조의2", "가사사건"]
           },
           {
             "@type": "LocalBusiness",
-            "@id": "https://local.example/lawyer-divorce#office",
-            "name": "법률사무소 은광",
+            "@id": "https://blog.naver.com/kjccjk77#office",
+            "name": "백상 법무법인",
             "address": {
               "@type": "PostalAddress",
-              "streetAddress": "서울특별시 서초구 서초대로 (데모 주소)",
-              "addressLocality": "서울",
-              "addressRegion": "서울특별시",
+              "streetAddress": "실제 공개 전 확인 필요",
+              "addressLocality": "확인 필요",
+              "addressRegion": "확인 필요",
               "addressCountry": "KR"
             }
           },
           {
             "@type": "FAQPage",
-            "@id": "https://local.example/lawyer-divorce#faq",
+            "@id": "https://blog.naver.com/kjccjk77#faq",
             "mainEntity": [
               {
                 "@type": "Question",
@@ -125,16 +126,16 @@
     </script>
   </head>
   <body>
-    <div class="demo-bar" role="note" aria-label="데모 안내">
-      이 페이지는 AI GEO 테스트용 <strong>데모</strong>입니다. 가상의 인물과 정보로 구성되어 있으며 실제 법률 서비스가 아닙니다.
+    <div class="demo-bar" role="note" aria-label="초안 안내">
+      이 페이지는 백상 법무법인 김재철 대표변호사 페르소나 반영을 위한 <strong>AI GEO 테스트 초안</strong>입니다. 실제 공개 전 등록번호·주소·전화번호 확인이 필요합니다.
     </div>
 
     <header class="site-header" aria-label="주요 이동">
-      <a class="brand" href="#top">법률사무소 은광</a>
+      <a class="brand" href="#top">백상 법무법인</a>
       <nav>
         <a href="#issues">쟁점 정리</a>
         <a href="#process">진행 방식</a>
-        <a href="#attorney">변호사 소개</a>
+        <a href="#attorney">대표변호사</a>
         <a href="#faq">FAQ</a>
         <a class="nav-cta" href="#contact">상담 신청</a>
       </nav>
@@ -148,11 +149,11 @@
              alt="이혼·재산분할 상담을 준비하는 회의 장면">
         <div class="hero-overlay"></div>
         <div class="hero-content">
-          <p class="eyebrow">서울 서초 · 가족법 중점</p>
-          <h1 id="hero-title">이혼과 재산분할,<br>처음부터 함께 정리합니다</h1>
-          <p class="hero-lede">이혼 사건은 이혼 여부, 재산분할, 친권·양육권, 면접교섭을 하나의 전략으로 묶어야 흔들리지 않습니다. 민법 제839조의2와 제840조를 출발점으로, 사건의 윤곽을 첫 상담에서 확인합니다.</p>
+          <p class="eyebrow">백상 법무법인 · 김재철 대표변호사</p>
+          <h1 id="hero-title">복잡한 가족법 쟁점,<br>처음부터 근거로 정리합니다</h1>
+          <p class="hero-lede">김재철 대표변호사님의 상담 페르소나를 기준으로 이혼 여부, 재산분할, 친권·양육권, 면접교섭을 하나의 쟁점표로 묶습니다. 민법 제839조의2와 제840조를 출발점으로, 사건의 윤곽을 첫 상담에서 확인합니다.</p>
           <div class="hero-actions">
-            <a class="button primary" href="#contact">상담 신청하기</a>
+            <a class="button primary" href="#contact">상담 준비하기</a>
             <a class="button secondary" href="#faq">자주 묻는 질문</a>
           </div>
         </div>
@@ -161,13 +162,13 @@
       <!-- ── Trust bar ── -->
       <div class="trust-bar" aria-label="주요 지표">
         <div class="trust-item">
-          <strong>가족법 중점</strong>
-          <span>이혼·상속·양육 집중</span>
+          <strong>대표변호사 상담 흐름</strong>
+          <span>쟁점·증거·절차 정리</span>
         </div>
         <div class="trust-divider"></div>
         <div class="trust-item">
-          <strong>첫 상담 쟁점 정리</strong>
-          <span>사실관계·증거 구조 확인</span>
+          <strong>블로그 기반 페르소나</strong>
+          <span>공개 글 링크 연결</span>
         </div>
         <div class="trust-divider"></div>
         <div class="trust-item">
@@ -176,8 +177,8 @@
         </div>
         <div class="trust-divider"></div>
         <div class="trust-item">
-          <strong>서울·경기·인천</strong>
-          <span>관할 법원 직접 대응</span>
+          <strong>공개 전 확인필요</strong>
+          <span>등록번호·주소·전화번호</span>
         </div>
       </div>
 
@@ -353,18 +354,18 @@
       <section id="attorney" class="section attorney-section" aria-labelledby="attorney-title">
         <div class="attorney-card">
           <div class="attorney-photo" aria-hidden="true">
-            <div class="attorney-avatar">최</div>
+            <div class="attorney-avatar">김</div>
           </div>
           <div class="attorney-info">
             <div class="section-label">변호사 소개</div>
-            <h2 id="attorney-title">최우민 변호사</h2>
-            <p class="attorney-firm">법률사무소 은광 · 서울 서초구 법원로 15, 서초빌딩 702호 · 02-000-0000</p>
-            <p>가족법 사건을 전담으로 다루며, 이혼·재산분할·양육권·면접교섭·상속 분쟁에 집중합니다. 민법 제839조의2, 제840조, 제837조 등 관련 조문과 대법원 판례를 기준으로 사건의 쟁점을 명확하게 정리하는 것을 원칙으로 합니다.</p>
+            <h2 id="attorney-title">김재철 대표변호사</h2>
+            <p class="attorney-firm">백상 법무법인 · 블로그 <a href="https://blog.naver.com/kjccjk77" target="_blank" rel="noreferrer">blog.naver.com/kjccjk77</a> · 연락처 확인 필요</p>
+            <p>김재철 대표변호사님의 공개 블로그와 사용자 제공 정보를 기준으로 구성한 랜딩 초안입니다. 가족법 상담에서는 민법 제839조의2, 제840조, 제837조 등 관련 조문과 대법원 판례를 기준으로 사건의 쟁점을 명확하게 정리하는 흐름을 우선합니다.</p>
             <ul class="attorney-credentials">
-              <li>대한변호사협회 등록 변호사</li>
-              <li>등록번호: 제XXXXX호 (데모)</li>
-              <li>가족법·상속 중점</li>
-              <li>서울가정법원 관할 사건 대응</li>
+              <li>백상 법무법인 대표변호사</li>
+              <li>공개 블로그 기반 콘텐츠 톤 반영</li>
+              <li>등록번호: 실제 공개 전 확인 필요</li>
+              <li>주소·전화번호: 실제 공개 전 확인 필요</li>
             </ul>
           </div>
         </div>
@@ -488,8 +489,8 @@
           </ul>
         </div>
         <div class="contact-card">
-          <h3>상담 신청</h3>
-          <p class="contact-sub">02-000-0000 · 평일 09:00–18:00 · 토요일 10:00–14:00</p>
+          <h3>상담 준비</h3>
+          <p class="contact-sub">백상 법무법인 김재철 대표변호사 · 연락처와 운영시간은 실제 공개 전 확인 필요</p>
           <form class="contact-form" novalidate>
             <label>
               이름
@@ -497,7 +498,7 @@
             </label>
             <label>
               연락처
-              <input type="tel" name="tel" placeholder="010-0000-0000" autocomplete="tel">
+              <input type="tel" name="tel" placeholder="연락 가능한 번호" autocomplete="tel">
             </label>
             <label>
               주요 쟁점
@@ -515,9 +516,9 @@
               상담 내용 (선택)
               <textarea name="message" rows="3" placeholder="간략히 상황을 적어주시면 더 빠른 상담이 가능합니다"></textarea>
             </label>
-            <button type="submit" class="submit-btn">데모 상담 흐름 확인</button>
+            <button type="submit" class="submit-btn">상담 준비 항목 확인</button>
           </form>
-          <p class="contact-notice">⚠ 데모 페이지입니다. 제출하셔도 실제로 전송되지 않으며, 이 페이지의 변호사·사무소 정보는 가상입니다.</p>
+          <p class="contact-notice">이 초안의 폼은 실제로 전송되지 않습니다. 공개 배포 전 실제 연락처, 주소, 등록번호, 광고 가능 문구 확인이 필요합니다.</p>
         </div>
       </section>
 
@@ -526,9 +527,9 @@
     <footer class="site-footer">
       <div class="footer-inner">
         <div>
-          <strong class="footer-brand">법률사무소 은광</strong>
-          <p>서울특별시 서초구 서초대로 (데모 주소) · 대표변호사 최우민</p>
-          <p>대한변호사협회 등록 변호사 · 등록번호 제XXXXX호 (데모)</p>
+          <strong class="footer-brand">백상 법무법인</strong>
+          <p>대표변호사 김재철 · 블로그 blog.naver.com/kjccjk77</p>
+          <p>대한변호사협회 등록번호, 주소, 전화번호는 실제 공개 전 확인 필요</p>
         </div>
         <nav class="footer-nav" aria-label="하단 이동">
           <a href="#issues">쟁점 정리</a>
@@ -566,7 +567,7 @@
       document.querySelector('.contact-form').addEventListener('submit', function(e) {
         e.preventDefault();
         var btn = this.querySelector('.submit-btn');
-        btn.textContent = '데모 확인 완료 — 실제로 전송되지 않습니다';
+        btn.textContent = '준비 항목 확인 완료 — 실제로 전송되지 않습니다';
         btn.disabled = true;
       });
     </script>

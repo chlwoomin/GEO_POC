@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "project": "GEOPOC",
-  "updated_at": "2026-05-06T18:00:00+09:00",
+  "updated_at": "2026-05-06T20:03:00+09:00",
   "active_milestone": "M7",
   "loop": {
-    "attempts_total": 12,
+    "attempts_total": 13,
     "validation_failures_total": 0,
     "debug_retries_current_milestone": 0,
     "max_debug_retries_per_milestone": 3,
@@ -18,9 +18,9 @@
   },
   "geo_score": {
     "dev": {
-      "last_score": 87,
+      "last_score": 93,
       "last_max": 100,
-      "last_grade": "B",
+      "last_grade": "A",
       "last_status": "passed",
       "last_command": "python scripts/geo-score.py --json --mode dev",
       "pass_threshold": 80
@@ -52,15 +52,15 @@
     "gate_command": "bash scripts/claude-review-gate.sh",
     "default_backend": "claude-code",
     "fallback_backend": "api",
-    "last_status": "pending-after-m6-persona",
+    "last_status": "pending-after-kim-jae-cheol-landing",
     "last_verdict": null,
     "blocks_on_fail": true
   },
   "deployment": {
-    "status": "production-blocked-persona-staging-ready",
+    "status": "production-blocked-kim-jae-cheol-landing-draft-ready",
     "needs_platform": true,
     "needs_public_url": true,
-    "needs_real_lawyer_profile": true,
+    "needs_real_lawyer_profile": false,
     "prod_geo_required": true,
     "persona_staging_ready": true,
     "persona_search_indexing_allowed": false
