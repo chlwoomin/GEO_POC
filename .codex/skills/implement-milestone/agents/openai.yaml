@@ -1,0 +1,4 @@
+interface:
+  display_name: "Implement Milestone"
+  short_description: "Execute one planned AI workflow milestone."
+  default_prompt: "Use this skill to implement the next milestone from ai/PLAN.md."

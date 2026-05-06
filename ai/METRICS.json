@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "project": "GEOPOC",
+  "updated_at": "2026-05-06T12:02:00+09:00",
+  "active_milestone": "M2",
+  "loop": {
+    "attempts_total": 4,
+    "validation_failures_total": 0,
+    "debug_retries_current_milestone": 0,
+    "max_debug_retries_per_milestone": 3,
+    "max_files_changed_per_loop": 8,
+    "max_lines_changed_per_loop": 400
+  },
+  "validation": {
+    "last_status": "passed",
+    "last_command": "bash scripts/ai-loop.sh",
+    "last_score": 100
+  },
+  "milestones": [
+    {
+      "id": "M0",
+      "name": "Bootstrap AI Workflow Infrastructure",
+      "status": "done"
+    },
+    {
+      "id": "M1",
+      "name": "Repository Baseline Discovery",
+      "status": "done"
+    },
+    {
+      "id": "M2",
+      "name": "First Feature Spec",
+      "status": "planned"
+    },
+    {
+      "id": "M3",
+      "name": "First Implementation Milestone",
+      "status": "planned"
+    }
+  ]
+}

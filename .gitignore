@@ -1,0 +1,30 @@
+# Claude review pipeline outputs (transient, not version-controlled)
+REVIEW.md
+REVIEW.resolved.md
+
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+.next/
+out/
+
+# Environment
+.env
+.env.local
+.env*.local
+
+# Fixtures with real PII (must be manually redacted before committing)
+fixtures/*.html
+fixtures/*.json
+!fixtures/.gitkeep
+
+# SQLite DB
+*.db
+*.db-journal
+
+# OS
+.DS_Store
+Thumbs.db

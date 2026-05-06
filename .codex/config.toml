@@ -1,0 +1,6 @@
+# Repo-local Codex config.
+# Durable operating instructions live in AGENTS.md and ai/RUNBOOK.md.
+# Only known Codex settings are set here.
+
+model = "gpt-5.5"
+model_reasoning_effort = "high"

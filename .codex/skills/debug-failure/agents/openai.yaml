@@ -1,0 +1,4 @@
+interface:
+  display_name: "Debug Failure"
+  short_description: "Diagnose failed validation and propose a bounded retry."
+  default_prompt: "Use this skill when validation fails during the AI loop."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Update Status"
+  short_description: "Update status and metrics after an AI loop pass."
+  default_prompt: "Use this skill to update ai/STATUS.md and ai/METRICS.json after a loop pass."

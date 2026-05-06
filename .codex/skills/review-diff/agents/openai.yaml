@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review Diff"
+  short_description: "Review AI-generated diffs before status updates."
+  default_prompt: "Use this skill to review the current diff against ai/SPEC.md and ai/PLAN.md."
