@@ -173,7 +173,7 @@ if [ -n "$PYTHON" ] && [ -f scripts/geo-score.py ]; then
     failures=$((failures + 1))
   fi
   "$PYTHON" scripts/geo-score.py || failures=$((failures + 1))
-  "$PYTHON" scripts/geo-score.py --mode persona || failures=$((failures + 1))
+  "$PYTHON" scripts/geo-score.py --mode prod || failures=$((failures + 1))
 fi
 
 if command -v node >/dev/null 2>&1; then
@@ -198,10 +198,10 @@ if command -v node >/dev/null 2>&1; then
     failures=$((failures + 1))
   fi
 
-  if node scripts/geo-dashboard.js --score-json --mode persona >/dev/null 2>&1; then
-    printf 'ok geo dashboard persona score\n'
+  if node scripts/geo-dashboard.js --score-json --mode prod >/dev/null 2>&1; then
+    printf 'ok geo dashboard prod score\n'
   else
-    printf 'invalid geo dashboard persona score\n'
+    printf 'invalid geo dashboard prod score\n'
     failures=$((failures + 1))
   fi
 

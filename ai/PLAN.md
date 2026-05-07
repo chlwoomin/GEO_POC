@@ -1,6 +1,6 @@
 # AI 워크플로 계획
 
-업데이트: 2026-05-06 18:00 Asia/Seoul
+업데이트: 2026-05-07 15:05 Asia/Seoul
 
 ## 마일스톤 상태 정의
 
@@ -11,7 +11,7 @@
 
 ## 현재 우선순위
 
-현재 목표는 김재철 대표변호사님/백상 법무법인 페르소나를 반영한 랜딩 초안을 production 배포 가능한 형태로 점진 전환하는 것입니다. 실제 등록번호·주소·전화번호·배포 URL은 임의 생성하지 않고, `ai/production-profile.example.json` 계약에 따라 확인된 값만 사용합니다.
+현재 목표는 공개 배포된 랜딩의 실제 AI GEO 노출 여부를 추적하는 것입니다. 실제 등록번호·주소·전화번호는 임의 생성하지 않고, 확인된 값이 없으면 페이지와 JSON-LD에서 노출하지 않습니다.
 
 ## 마일스톤
 
@@ -106,7 +106,7 @@
 
 ### M7. Production Deployment Readiness
 
-상태: `blocked`
+상태: `done`
 
 목표: 실제 공개 URL에 올릴 수 있는 production landing build를 만든다.
 
@@ -114,23 +114,20 @@
 
 - 김재철 대표변호사님/백상 법무법인/블로그 URL을 랜딩 초안에 반영
 - production 입력 계약 파일 `ai/production-profile.example.json` 정의
-
-Blocker:
-
-- 실제 배포 플랫폼이 필요함: Vercel, Netlify, Cloudflare Pages, GitHub Pages 중 하나
-- 실제 공개 도메인 또는 임시 배포 URL이 필요함
-- 실제 변호사/사무소 정보 중 등록번호, 주소, 전화번호, 상담 가능 지역, 실제 광고 가능 문구가 필요함
-- 현재 랜딩은 `noindex,nofollow` 상태이므로 production 배포 gate를 통과할 수 없음
+- Vercel 공개 URL `https://geo-poc-three.vercel.app/` 반영
+- 랜딩 첫 화면, CTA, demo 문구, user-facing placeholder 정리
+- `robots.txt`, `sitemap.xml` 생성
+- `scripts/validate.sh` 기본 gate를 prod 모드로 전환
 
 완료 조건:
 
 - [x] production 정보 파일 또는 환경변수 정의
-- [ ] `noindex,nofollow` 제거 또는 prod에서 indexable 처리
-- [ ] 실제 도메인 기준 canonical URL 추가
-- [ ] `robots.txt`와 `sitemap.xml` 생성
-- [ ] `scripts/geo-score.py --mode prod` 통과
-- [ ] 정적 호스팅 플랫폼에 배포
-- [ ] 공개 URL 기록
+- [x] `noindex,nofollow` 제거 또는 prod에서 indexable 처리
+- [x] 실제 도메인 기준 canonical URL 추가
+- [x] `robots.txt`와 `sitemap.xml` 생성
+- [x] `scripts/geo-score.py --mode prod` 통과
+- [x] 정적 호스팅 플랫폼에 배포
+- [x] 공개 URL 기록
 
 ### M8. Real AI GEO Experiment
 

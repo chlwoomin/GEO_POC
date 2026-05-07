@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "project": "GEOPOC",
-  "updated_at": "2026-05-06T21:10:00+09:00",
-  "active_milestone": "M7",
+  "updated_at": "2026-05-07T15:05:00+09:00",
+  "active_milestone": "M8",
   "loop": {
-    "attempts_total": 14,
+    "attempts_total": 15,
     "validation_failures_total": 0,
     "debug_retries_current_milestone": 0,
     "max_debug_retries_per_milestone": 3,
@@ -18,9 +18,9 @@
   },
   "geo_score": {
     "dev": {
-      "last_score": 111,
+      "last_score": 117,
       "last_max": 118,
-      "last_pct": 94,
+      "last_pct": 99,
       "last_grade": "A",
       "last_status": "passed",
       "last_command": "python scripts/geo-score.py --json --mode dev",
@@ -31,16 +31,21 @@
       "last_max": 118,
       "last_pct": 100,
       "last_grade": "A",
-      "last_status": "passed",
+      "last_status": "retired-after-production-switch",
       "last_command": "python scripts/geo-score.py --json --mode persona",
       "pass_threshold": 90,
       "critical_failures": []
     },
     "prod": {
-      "last_status": "failed",
+      "last_score": 117,
+      "last_max": 118,
+      "last_pct": 99,
+      "last_grade": "A",
+      "last_status": "passed",
       "last_command": "python scripts/geo-score.py --json --mode prod",
       "pass_threshold": 90,
-      "note": "noindex 제거 및 실제 등록번호·주소·전화번호 입력 전까지 의도적 실패"
+      "critical_failures": [],
+      "note": "Vercel public URL reflected; unknown registration/address/phone values omitted rather than invented"
     }
   },
   "claude_review": {
@@ -54,13 +59,15 @@
     "blocks_on_fail": true
   },
   "deployment": {
-    "status": "production-blocked-profile-contract-and-query-matrix-ready",
-    "needs_platform": true,
-    "needs_public_url": true,
+    "status": "production-ready-public-url-recorded",
+    "needs_platform": false,
+    "needs_public_url": false,
     "needs_real_lawyer_profile": false,
     "prod_geo_required": true,
-    "persona_staging_ready": true,
-    "persona_search_indexing_allowed": false
+    "persona_staging_ready": false,
+    "persona_search_indexing_allowed": true,
+    "platform": "Vercel",
+    "public_url": "https://geo-poc-three.vercel.app/"
   },
   "watcher": {
     "available": true,
@@ -81,7 +88,7 @@
     "available": true,
     "command": "node scripts/geo-dashboard.js",
     "fallback_command": "node scripts/geo-dashboard.js --port 3134",
-    "score_command": "node scripts/geo-dashboard.js --score-json --mode persona",
+    "score_command": "node scripts/geo-dashboard.js --score-json --mode prod",
     "supports_js_fallback": true
   },
   "milestones": [
@@ -123,7 +130,7 @@
     {
       "id": "M7",
       "name": "Production Deployment Readiness",
-      "status": "blocked"
+      "status": "done"
     },
     {
       "id": "M8",

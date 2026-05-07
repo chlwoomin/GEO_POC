@@ -72,7 +72,7 @@ if ! grep -q 'persona' scripts/geo-score.py 2>/dev/null; then
   penalize 10
 fi
 
-if ! grep -q -- '--mode persona' scripts/validate.sh 2>/dev/null; then
+if ! grep -q -- '--mode prod' scripts/validate.sh 2>/dev/null; then
   penalize 10
 fi
 

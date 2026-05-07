@@ -65,7 +65,8 @@ def main() -> int:
     for required in [
         "<title>",
         'meta name="description"',
-        'meta name="robots" content="noindex, nofollow"',
+        'meta name="robots" content="index, follow"',
+        'https://geo-poc-three.vercel.app/',
         "family-law-consultation.png",
         "민법 제839조의2",
         "민법 제840조",
