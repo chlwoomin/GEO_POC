@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "project": "GEOPOC",
-  "updated_at": "2026-05-07T15:05:00+09:00",
+  "updated_at": "2026-05-07T15:15:00+09:00",
   "active_milestone": "M8",
   "loop": {
     "attempts_total": 15,
@@ -55,7 +55,7 @@
     "fallback_backend": "api",
     "last_status": "passed",
     "last_verdict": "PASS",
-    "last_commit": "4c67e99",
+    "last_commit": "aa415ce",
     "blocks_on_fail": true
   },
   "deployment": {
@@ -65,7 +65,8 @@
     "needs_real_lawyer_profile": false,
     "prod_geo_required": true,
     "persona_staging_ready": false,
-    "persona_search_indexing_allowed": true,
+    "search_indexing_allowed": true,
+    "search_indexing_note": "Production public URL is indexable; retired persona staging mode remains non-production history only.",
     "platform": "Vercel",
     "public_url": "https://geo-poc-three.vercel.app/"
   },

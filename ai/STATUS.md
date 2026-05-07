@@ -1,6 +1,6 @@
 # AI 워크플로 상태
 
-업데이트: 2026-05-07 15:05 Asia/Seoul
+업데이트: 2026-05-07 15:15 Asia/Seoul
 
 ## 현재 상태
 
@@ -68,7 +68,6 @@ production 페이지는 `index, follow`로 전환되었습니다. 실제 등록�
 - `landing/robots.txt`: Vercel 공개 URL 기준 생성
 - `landing/sitemap.xml`: Vercel 공개 URL 기준 생성
 - `scripts/validate.sh`: M7 이후 기본 검증 gate를 persona 대신 prod mode로 전환
-- `landing/styles.css`: 스킵 내비, 햄버거 메뉴, focus-visible, 모바일 드롭다운 스타일 추가
 - `landing/robots.txt.template`: 배포용 robots.txt 템플릿 생성
 - `landing/sitemap.xml.template`: 배포용 sitemap.xml 템플릿 생성
 - `scripts/geo-score.py`: `check_social_meta` (소셜 메타·canonical, 8pt) 추가
@@ -83,6 +82,7 @@ production 페이지는 `index, follow`로 전환되었습니다. 실제 등록�
 - `node scripts/geo-dashboard.js --score-json --mode prod`: 99/100 = 99%, Grade A, passed
 - `bash scripts/score-result.sh`: 100점, pass
 - `python scripts/validate-landing.py`: passed
+- Claude review gate: PASS (`aa415ce`, blockers 없음)
 
 ## 다음 액션
 
@@ -105,3 +105,4 @@ production 페이지는 `index, follow`로 전환되었습니다. 실제 등록�
 - 2026-05-06 20:35 Asia/Seoul | done | Claude review PASS 반영, M7 blocker 유지
 - 2026-05-06 21:10 Asia/Seoul | done | 랜딩 GEO 전면 개선, 고급 스키마·소셜 메타·모바일 메뉴·FAQ 12개·배포 템플릿 완성, persona 100/118pt → 118/118pt
 - 2026-05-07 15:05 Asia/Seoul | done | M7 production 전환 완료, Vercel URL canonical/robots/sitemap 반영, 랜딩 히어로·CTA 개선, prod GEO 117/118 통과
+- 2026-05-07 15:15 Asia/Seoul | done | Claude review PASS 반영, M8 진입 전 메트릭 필드명과 STATUS 중복 항목 정리
