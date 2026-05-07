@@ -466,6 +466,52 @@ def check_demo_data(html: str, mode: str) -> Check:
     )
 
 
+def check_social_meta(html: str) -> Check:
+    og_title = bool(re.search(r'property=["\']og:title["\']', html, re.IGNORECASE))
+    og_desc = bool(re.search(r'property=["\']og:description["\']', html, re.IGNORECASE))
+    twitter = bool(re.search(r'name=["\']twitter:card["\']', html, re.IGNORECASE))
+    canonical = bool(re.search(r'rel=["\']canonical["\']', html, re.IGNORECASE))
+    keywords = bool(re.search(r'name=["\']keywords["\']', html, re.IGNORECASE))
+
+    score = og_title * 2 + og_desc * 2 + twitter * 1 + canonical * 2 + keywords * 1
+    detail = (
+        f"og:title={og_title} og:description={og_desc} "
+        f"twitter={twitter} canonical={canonical} keywords={keywords}"
+    )
+    return Check(
+        "소셜 메타·canonical",
+        score,
+        8,
+        detail,
+        passed=og_title and og_desc and canonical,
+    )
+
+
+def check_advanced_schema(payloads: list[dict[str, Any]]) -> Check:
+    all_types = get_all_types(payloads)
+    nodes: list[dict[str, Any]] = []
+    for p in payloads:
+        nodes.extend(flatten_nodes(p))
+
+    has_howto = "HowTo" in all_types
+    has_speakable = any("speakable" in n for n in nodes)
+    has_date = any("dateModified" in n or "datePublished" in n for n in nodes)
+    has_webpage = bool({"WebPage", "LegalWebPage"} & all_types)
+
+    score = has_howto * 3 + has_speakable * 3 + has_date * 2 + has_webpage * 2
+    detail = (
+        f"HowTo={has_howto} speakable={has_speakable} "
+        f"dateModified={has_date} WebPage={has_webpage}"
+    )
+    return Check(
+        "고급 스키마 신호",
+        score,
+        10,
+        detail,
+        passed=score >= 6,
+    )
+
+
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Score lawyer landing page GEO readiness.")
     parser.add_argument("--json", action="store_true", help="print machine-readable JSON")
@@ -491,6 +537,8 @@ def build_report(html: str, mode: str) -> Report:
     report.add(check_legal_compliance(html))
     report.add(check_indexability(html, mode))
     report.add(check_demo_data(html, mode))
+    report.add(check_social_meta(html))
+    report.add(check_advanced_schema(payloads))
     return report
 
 

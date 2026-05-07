@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  sitemap.xml 템플릿 — 배포 전 아래 항목을 교체하세요
+  {PUBLIC_URL}  → 실제 공개 URL  (예: https://example.com)
+  {DATE}        → 최종 수정일    (예: 2026-05-06)
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>{PUBLIC_URL}/</loc>
+    <lastmod>{DATE}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="{PUBLIC_URL}/"/>
+  </url>
+</urlset>

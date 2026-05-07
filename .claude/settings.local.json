@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3:*)",
+      "Bash(python scripts/geo-score.py)",
+      "Bash(start:*)",
+      "Bash(python -c ' *)",
+      "Bash(python scripts/validate-landing.py)",
+      "Bash(python -c \"import subprocess; r = subprocess.run\\(['python', 'scripts/validate-landing.py'], capture_output=True, text=True, encoding='utf-8'\\); print\\('stdout:', r.stdout[:200]\\); print\\('stderr:', r.stderr[:200]\\); print\\('rc:', r.returncode\\)\")",
+      "Bash(bash scripts/validate.sh)",
+      "Bash(git commit -m ' *)",
+      "Bash(python scripts/geo-score.py --json)",
+      "Bash(node --check scripts/geo-dashboard.js)",
+      "Bash(node scripts/geo-dashboard.js)",
+      "Bash(curl -s http://127.0.0.1:3133/api/score)",
+      "Bash(python -m json.tool)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://127.0.0.1:3133/landing/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://127.0.0.1:3133/landing/styles.css)",
+      "Bash(pkill -f \"geo-dashboard.js\")",
+      "Bash(python -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\('total:', d['total'], 'grade:', d['grade'], 'checks:', len\\(d['checks']\\)\\)\")",
+      "Bash(node scripts/geo-dashboard.js --port 3134)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://127.0.0.1:3134/landing/)",
+      "Bash(curl -s http://127.0.0.1:3134/api/score)",
+      "Bash(python -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\('total:', d['total'], 'grade:', d['grade']\\)\")",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\woomin\\\\Desktop\\\\Project\\\\GEOPOC\" -Force)",
+      "Bash(Select-Object Name, FullName)",
+      "Bash(python scripts/geo-score.py --mode persona)",
+      "Bash(python scripts/geo-score.py --mode dev)",
+      "Bash(bash scripts/score-result.sh)",
+      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('ai/METRICS.json','utf8'\\)\\); console.log\\('METRICS.json OK'\\)\")"
+    ]
+  }
+}
