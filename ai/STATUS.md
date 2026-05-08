@@ -1,10 +1,10 @@
 # AI 워크플로 상태
 
-업데이트: 2026-05-07 15:15 Asia/Seoul
+업데이트: 2026-05-07 16:00 Asia/Seoul
 
 ## 현재 상태
 
-M7 Production Deployment Readiness를 완료했습니다. 사용자가 제공한 Vercel 공개 URL `https://geo-poc-three.vercel.app/`을 canonical, Open Graph, JSON-LD, robots, sitemap에 반영했고 랜딩페이지 첫 화면과 상담 CTA를 production용으로 정리했습니다.
+M7 Production Deployment Readiness를 완료했습니다. 사용자가 제공한 Vercel 공개 URL `https://geo-poc-three.vercel.app/`을 canonical, Open Graph, JSON-LD, robots, sitemap에 반영했고, 김재철 대표변호사 개인 페이지 톤으로 첫 화면과 본문 디자인을 다시 정리했습니다.
 
 현재 GEO 결과:
 
@@ -13,6 +13,8 @@ M7 Production Deployment Readiness를 완료했습니다. 사용자가 제공한
 - geo dashboard prod fallback: 99/100 = 99%, Grade A, 통과
 
 production 페이지는 `index, follow`로 전환되었습니다. 실제 등록번호, 주소, 전화번호는 임의 생성하지 않고, 확인된 값이 없어서 user-facing 페이지와 JSON-LD에서 제거했습니다.
+
+2026-05-07 후속 디자인 polish에서 블로그 RSS의 판례 소개·평석 구조를 참고해, 페이지를 가족법 광고 랜딩이 아니라 김재철 대표변호사의 개인 프로필/판례 기반 상담 페이지로 재구성했습니다.
 
 ## 완료된 마일스톤
 
@@ -64,7 +66,10 @@ production 페이지는 `index, follow`로 전환되었습니다. 실제 등록�
 - `landing/index.html`: 상담 폼에 양육비·협의이혼 옵션 추가
 - `landing/index.html`: 공개 URL canonical/OG/JSON-LD 전환, `index, follow` 적용
 - `landing/index.html`: demo/초안/확인 필요 문구 제거, 가짜 폼 대신 블로그 CTA와 상담 준비 안내로 교체
+- `landing/index.html`: 김재철 대표변호사 개인 페이지 톤으로 hero, 프로필, 판례 메모 방식, 업무 분야 문구 개편
 - `landing/styles.css`: 랜딩 히어로, 신뢰 바, CTA, 모바일 타이포 개선
+- `landing/styles.css`: 새 hero 배경, 프로필 그리드, 판례 메모 섹션, 개인 페이지형 시각 디자인 적용
+- `landing/assets/jaecheol-kim-legal-office.png`: 판례 검토 분위기의 사무실 hero 배경 이미지 추가
 - `landing/robots.txt`: Vercel 공개 URL 기준 생성
 - `landing/sitemap.xml`: Vercel 공개 URL 기준 생성
 - `scripts/validate.sh`: M7 이후 기본 검증 gate를 persona 대신 prod mode로 전환
@@ -82,7 +87,7 @@ production 페이지는 `index, follow`로 전환되었습니다. 실제 등록�
 - `node scripts/geo-dashboard.js --score-json --mode prod`: 99/100 = 99%, Grade A, passed
 - `bash scripts/score-result.sh`: 100점, pass
 - `python scripts/validate-landing.py`: passed
-- Claude review gate: PASS (`aa415ce`, blockers 없음)
+- Claude review gate: PASS (`aa415ce`, blockers 없음). 이번 후속 landing redesign 커밋은 커밋 후 사용자 로컬 watcher/gate 재실행 필요
 
 ## 다음 액션
 
@@ -106,3 +111,4 @@ production 페이지는 `index, follow`로 전환되었습니다. 실제 등록�
 - 2026-05-06 21:10 Asia/Seoul | done | 랜딩 GEO 전면 개선, 고급 스키마·소셜 메타·모바일 메뉴·FAQ 12개·배포 템플릿 완성, persona 100/118pt → 118/118pt
 - 2026-05-07 15:05 Asia/Seoul | done | M7 production 전환 완료, Vercel URL canonical/robots/sitemap 반영, 랜딩 히어로·CTA 개선, prod GEO 117/118 통과
 - 2026-05-07 15:15 Asia/Seoul | done | Claude review PASS 반영, M8 진입 전 메트릭 필드명과 STATUS 중복 항목 정리
+- 2026-05-07 16:00 Asia/Seoul | done | 김재철 대표변호사 개인 페이지 방향으로 hero 이미지 재생성, 블로그 판례 평석 톤 반영, validate/score-result 통과

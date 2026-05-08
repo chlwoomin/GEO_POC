@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "project": "GEOPOC",
-  "updated_at": "2026-05-07T15:15:00+09:00",
+  "updated_at": "2026-05-07T16:00:00+09:00",
   "active_milestone": "M8",
   "loop": {
-    "attempts_total": 15,
+    "attempts_total": 16,
     "validation_failures_total": 0,
     "debug_retries_current_milestone": 0,
     "max_debug_retries_per_milestone": 3,
@@ -59,14 +59,14 @@
     "blocks_on_fail": true
   },
   "deployment": {
-    "status": "production-ready-public-url-recorded",
+    "status": "production-ready-profile-page-polished",
     "needs_platform": false,
     "needs_public_url": false,
     "needs_real_lawyer_profile": false,
     "prod_geo_required": true,
     "persona_staging_ready": false,
     "search_indexing_allowed": true,
-    "search_indexing_note": "Production public URL is indexable; retired persona staging mode remains non-production history only.",
+    "search_indexing_note": "Production public URL is indexable; retired persona staging mode remains non-production history only. Landing copy now reflects Kim Jaecheol attorney's personal page and public blog case-note style.",
     "platform": "Vercel",
     "public_url": "https://geo-poc-three.vercel.app/"
   },

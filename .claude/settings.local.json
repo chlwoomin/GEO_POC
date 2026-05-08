@@ -27,7 +27,10 @@
       "Bash(python scripts/geo-score.py --mode persona)",
       "Bash(python scripts/geo-score.py --mode dev)",
       "Bash(bash scripts/score-result.sh)",
-      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('ai/METRICS.json','utf8'\\)\\); console.log\\('METRICS.json OK'\\)\")"
+      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('ai/METRICS.json','utf8'\\)\\); console.log\\('METRICS.json OK'\\)\")",
+      "Bash(python scripts/geo-score.py --json --mode prod)",
+      "Bash(python scripts/geo-score.py --json --mode dev)",
+      "Bash(node scripts/geo-dashboard.js --score-json --mode prod)"
     ]
   }
 }

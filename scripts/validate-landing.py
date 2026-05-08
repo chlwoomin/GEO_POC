@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 HTML_PATH = ROOT / "landing" / "index.html"
 CSS_PATH = ROOT / "landing" / "styles.css"
-IMAGE_PATH = ROOT / "landing" / "assets" / "family-law-consultation.png"
+IMAGE_PATH = ROOT / "landing" / "assets" / "jaecheol-kim-legal-office.png"
 
 
 def fail(message: str) -> None:
@@ -67,7 +67,7 @@ def main() -> int:
         'meta name="description"',
         'meta name="robots" content="index, follow"',
         'https://geo-poc-three.vercel.app/',
-        "family-law-consultation.png",
+        "jaecheol-kim-legal-office.png",
         "민법 제839조의2",
         "민법 제840조",
         "대법원 2021. 12. 16. 자 2017스628",
